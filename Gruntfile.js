@@ -19,9 +19,9 @@ module.exports = function(grunt) {
                         prefix: "sap/ui/demo/iconexplorer",
                         src: [
                             "Component.js",
-			        	    "**/*.js",
-						    "**/*.fragment.xml",
-						    "**/*.view.xml",
+			    "**/*.js",
+			    "**/*.fragment.xml",
+		            "**/*.view.xml",
                             "**/*.properties",
                             "manifest.json",
                             "!Component-preload.js",
@@ -62,17 +62,13 @@ module.exports = function(grunt) {
 				},
 				src: [
 					"src/openui5/resources/sap/ui/core/*.properties",
-                    "src/openui5/resources/sap/m/*.properties",
-                    "src/openui5/resources/sap/ui/layout/*.properties",
-                    "src/openui5/resources/sap/f/*.properties"
+                    			"src/openui5/resources/sap/m/*.properties",
+                   			"src/openui5/resources/sap/ui/layout/*.properties",
+                    			"src/openui5/resources/sap/f/*.properties"
 				],
 				dest: "src/openui5/resources/sap-ui-messagebundle-preload.js"
 			}
 		},
-
-
-
-
     });
     
     grunt.loadNpmTasks("grunt-contrib-clean");
