@@ -63,7 +63,8 @@ module.exports = function(grunt) {
 				src: [
 					"src/openui5/resources/sap/ui/core/*.properties",
                     "src/openui5/resources/sap/m/*.properties",
-                    "src/openui5/resources/sap/ui/layout/*.properties"
+                    "src/openui5/resources/sap/ui/layout/*.properties",
+                    "src/openui5/resources/sap/f/*.properties"
 				],
 				dest: "src/openui5/resources/sap-ui-messagebundle-preload.js"
 			}
