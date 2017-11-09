@@ -37,7 +37,7 @@ $ grunt build
 #### `Step 4` - run application
 
 ```bash
-$ npm serve
+$ npm run serve
 ```
 
 In browser, open [http://localhost:8819](http://localhost:8819)
@@ -207,7 +207,7 @@ RESOURCES_TO_PRELOAD = RESOURCES_TO_PRELOAD.concat([
     `${cdnBase}sap/m/themes/sap_belize/library.css`,
     `${cdnBase}sap/ui/core/themes/base/fonts/SAP-icons.woff2`,
     `${cdnBase}sap/m/library-preload.js`,
-	`${cdnBase}sap/ui/core/themes/sap_belize/library.css`
+    `${cdnBase}sap/ui/core/themes/sap_belize/library.css`
 ]);
 
 // Preload some resources during install
@@ -410,13 +410,77 @@ data-sap-ui-xx-waitForTheme="true"
 ```
 
 ### 9. Messagebundles-preload
+##### We do not need this step, when we use the ```OpenUI5 Nightlies```, because after version ```1.52``` of ```OpenUI5``` the messagebundles are being loaded asynchronously. But for older versions we need to preload these files, to prevent requests.
+
 After having fixed this, we only have six XHRs. Three of them are asynchronous, so there are just three synchronous requests leftover.
 
 ![requests_messagebundles.png](https://preview.ibb.co/csTjTG/requests_messagebundles.png)
 
 These three files are the ```messagebundle``` files. They are for standard texts in Components, for example the ```"Search"``` text of a ```Search field```. 
 
-To make them asynchronous, there is unfortunately no property or tag. This is being caused by the core of UI5. In future versions of sapui5 this will be fixed, and these files will be loaded asynchronously automatically, but for now we need a workaround:
+To make them load asynchronously, there is unfortunately no property or tag. We need a workaround:
+
+Firstly, we have to download packaged versions of our libraries with [Bower](https://bower.io/), to reach the messagebundle.properties files, by creating this ```bower.json``` file:
+
+```json
+{
+    "name": "iconexplorer",
+    "dependencies": {
+      "openui5-sap.ui.core": "openui5/packaged-sap.ui.core",
+      "openui5-sap.m": "openui5/packaged-sap.m",
+      "openui5-sap.f": "openui5/packaged-sap.f",
+      "openui5-sap.ui.layout": "openui5/packaged-sap.ui.layout"
+    }
+}
+```
+
+Secondly, we need to run this command in ```terminal```
+
+```bash
+$ bower install
+```
+
+```Bower``` will now save our libraries in ```bower_components``` directory.
+
+Thirdly, we must must extend our existing ```Gruntfile.js``` with one more task called ```concat```:
+
+```json
+concat: {
+	"sap-ui-messagebundle-preload.js": {
+		options: {
+			process: function(src, filepath) {
+				var moduleName = filepath.substr(filepath.indexOf("resources/") + "resources/".length);
+				var preloadName = moduleName.replace(/\//g, ".").replace(/\.js$/, "-preload");
+				var preload = {
+					"version": "2.0",
+					"name": preloadName,
+					"modules": {}
+				};
+				preload.modules[moduleName] = src;
+				return "jQuery.sap.registerPreloadedModules(" + JSON.stringify(preload) + ");";
+			}
+		},
+		src: [
+			"bower_components/openui5-sap.ui.core/resources/sap/ui/core/*.properties",
+                        "bower_components/openui5-sap.m/resources/sap/m/*.properties",
+                        "bower_components/openui5-sap.ui.layout/resources/sap/ui/layout/*.properties",
+                        "bower_components/openui5-sap.f/resources/sap/f/*.properties"
+		],
+		dest: "src/openui5/resources/sap-ui-messagebundle-preload.js"
+	}
+}
+```
+This task will concentrate all ```messagebundle``` files in one javascript file and register each file as preloded, so it does not need to be requested. 
+
+The generated ```sap-ui-messagebundle-preload,js``` file by Grunt needs to be called in ```index.html```, to be recognized:
+
+```html
+<!-- Preload Messagebundle files -->
+<script src="openui5/resources/sap-ui-messagebundle-preload.js"></script>
+```
+
+### 10. Audit
+Finally, our application should now load everything grom the service worker. This 
 
 
 
