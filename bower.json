@@ -1,0 +1,9 @@
+{
+    "name": "iconexplorer",
+    "dependencies": {
+      "openui5-sap.ui.core": "openui5/packaged-sap.ui.core",
+      "openui5-sap.m": "openui5/packaged-sap.m",
+      "openui5-sap.f": "openui5/packaged-sap.f",
+      "openui5-sap.ui.layout": "openui5/packaged-sap.ui.layout"
+    }
+}
