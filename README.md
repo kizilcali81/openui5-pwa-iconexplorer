@@ -200,7 +200,7 @@ var RESOURCES_TO_PRELOAD = [
 ];
 
 //Preload UI5 core and libraries by install
-const cdnBase = 'https://openui5nightly.hana.ondemand.com/resources/';
+const cdnBase = 'https://openui5.hana.ondemand.com/resources/';
 RESOURCES_TO_PRELOAD = RESOURCES_TO_PRELOAD.concat([
     `${cdnBase}sap-ui-core.js`,
     `${cdnBase}sap/ui/core/library-preload.js`,
