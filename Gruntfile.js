@@ -35,16 +35,6 @@ module.exports = function(grunt) {
             }
         },
 
-        curl: {
-            'src/openui5/resources/sap/ui/core/messagebundle.properties': 'https://openui5nightly.hana.ondemand.com/resources/sap/ui/core/messagebundle.properties',
-            'src/openui5/resources/sap/ui/core/messagebundle_en.properties': 'https://openui5nightly.hana.ondemand.com/resources/sap/ui/core/messagebundle_en.properties',
-            'src/openui5/resources/sap/m/messagebundle.properties': 'https://openui5nightly.hana.ondemand.com/resources/sap/m/messagebundle.properties',
-            'src/openui5/resources/sap/m/messagebundle_en.properties': 'https://openui5nightly.hana.ondemand.com/resources/sap/m/messagebundle_en.properties',
-            'src/openui5/resources/sap/ui/layout/messagebundle.properties': 'https://openui5nightly.hana.ondemand.com/resources/sap/ui/layout/messagebundle.properties',
-            'src/openui5/resources/sap/ui/layout/messagebundle_en.properties': 'https://openui5nightly.hana.ondemand.com/resources/sap/ui/layout/messagebundle_en.properties',
-            'src/openui5/resources/sap/f/messagebundle_en.properties': 'https://openui5nightly.hana.ondemand.com/resources/sap/f/messagebundle_en.properties'
-        },
-
         concat: {
 			"sap-ui-messagebundle-preload.js": {
 				options: {
@@ -61,10 +51,10 @@ module.exports = function(grunt) {
 					}
 				},
 				src: [
-					"src/openui5/resources/sap/ui/core/*.properties",
-                    			"src/openui5/resources/sap/m/*.properties",
-                   			"src/openui5/resources/sap/ui/layout/*.properties",
-                    			"src/openui5/resources/sap/f/*.properties"
+					"bower_components/openui5-sap.ui.core/resources/sap/ui/core/*.properties",
+                    			"bower_components/openui5-sap.m/resources/sap/m/*.properties",
+                    			"bower_components/openui5-sap.ui.layout/resources/sap/ui/layout/*.properties",
+                    			"bower_components/openui5-sap.f/resources/sap/f/*.properties"
 				],
 				dest: "src/openui5/resources/sap-ui-messagebundle-preload.js"
 			}
@@ -76,7 +66,7 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-curl');
     grunt.loadNpmTasks('grunt-contrib-concat');
     
-    grunt.registerTask('build', ['clean', 'openui5_preload', 'curl', 'concat']);
+    grunt.registerTask('build', ['clean', 'openui5_preload', 'concat']);
     grunt.registerTask('default', ['build']);
     
 };
