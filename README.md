@@ -102,6 +102,7 @@ The other tags are relevant for linking icons and theming. In this case the icon
 
 ### 2. Splash Screen
 PWAs always require static content to be shown instantly to guarantee native-like user experience, so the splash screen will be the very first thing seen on our Web Application. It will be displayed before the rendering of UI5 begins and while the libraries are being loaded.
+
 In this case we will add a title and a logo to the body of our ```index.html```:
 
 ```html
@@ -112,4 +113,79 @@ In this case we will add a title and a logo to the body of our ```index.html```:
         </div>
 </body>
 ```
+
+You can also change colors by adding a ```<style>``` tag to the header:
+```html
+<style>
+        body {
+            background: white;
+        }
+
+        #splash-screen {
+            color: #244C7C;
+            text-align: center;
+        }
+</style>
+```
+
+### 3. Manifest
+The Manifest is a description of our web app. You are able to define a name, link icons, give a short description of your application and name an author. UI5 already requires a manifest, meaning that we can merge them by adding PWA related terms in the existing ```manifest.json``` file:
+
+```json
+    "_version": "1.2.0",
+    "name": "PWA UI5 Icon Explorer",
+    "short_name": "Icon Explorer",
+    "icons": [
+        
+        {
+            "src": "icons/icon.svg",
+            "sizes": "48x48 72x72 96x96 128x128 144x144 152x152 192x192   
+                      256x256 512x512"
+        },
+
+        {
+            "src": "icons/icon-128x128.png",
+            "sizes": "128x128",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-144x144.png",
+            "sizes": "144x144",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-152x152.png",
+            "sizes": "152x152",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-256x256.png",
+            "sizes": "256x256",
+            "type": "image/png"
+        },
+        {
+            "src": "icons/icon-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png"
+        }
+    ],
+    "start_url": "index.html",
+    "display": "standalone",
+    "background_color": "#FFFFFF",
+    "theme_color": "#427CAC",
+```
+
+```“display”: “standalone”``` will have the effect, that our UI is displayed like a normal native app.
+
+### 4. Service Worker
+A service worker is a separate script, running in the background independent from the main thread. It allows us to implement various features, but the main goals are the ability of push notifications and offline resource loading.
+
+The service worker’s life cycle starts with the install process. This is the only point, where it has online connectivity and can be used to cache needed resources. Once all required files are loaded, it gets activated and can now handle fetch and message requests.
+Let us begin with building a service worker and see what is happening:
+
 
