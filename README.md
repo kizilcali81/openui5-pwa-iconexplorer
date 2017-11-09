@@ -101,3 +101,15 @@ The other tags are relevant for linking icons and theming. In this case the icon
 
 
 ### 2. Splash Screen
+PWAs always require static content to be shown instantly to guarantee native-like user experience, so the splash screen will be the very first thing seen on our Web Application. It will be displayed before the rendering of UI5 begins and while the libraries are being loaded.
+In this case we will add a title and a logo to the body of our ```index.html```:
+
+```html
+<body class="sapUiBody" id="content">
+        <div id="splash-screen">
+            <h1>UI5 IconExplorer as a Progressive Web Application</h1>
+            <img src="icons/icon.svg" alt="PWA UI5 IconExplorer">
+        </div>
+</body>
+```
+
