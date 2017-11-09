@@ -482,7 +482,7 @@ The generated ```sap-ui-messagebundle-preload,js``` file by Grunt needs to be ca
 ### 10. Audit
 Finally, our application should now load everything from the service worker. This means, that our Progrssive Web App is finished and fully working offline. 
 
-<a href="https://ibb.co/mEg5kw"><img src="https://preview.ibb.co/cDZfJG/iconexplorer.gif" alt="iconexplorer" border="0" /></a>
+<a href="https://ibb.co/gvjcXb"><img src="https://image.ibb.co/mB56Qw/iconexplorer.gif" alt="iconexplorer" border="0"></a>
 
 
 
