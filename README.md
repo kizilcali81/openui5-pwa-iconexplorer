@@ -444,7 +444,7 @@ $ bower install
 
 Thirdly, we must must extend our existing ```Gruntfile.js``` with one more task called ```concat```:
 
-```json
+```javascript
 concat: {
 	"sap-ui-messagebundle-preload.js": {
 		options: {
@@ -480,7 +480,9 @@ The generated ```sap-ui-messagebundle-preload,js``` file by Grunt needs to be ca
 ```
 
 ### 10. Audit
-Finally, our application should now load everything grom the service worker. This 
+Finally, our application should now load everything from the service worker. This means, that our Progrssive Web App is finished and fully working offline. 
+
+![demo.gif](https://preview.ibb.co/cDZfJG/iconexplorer.gif)
 
 
 
