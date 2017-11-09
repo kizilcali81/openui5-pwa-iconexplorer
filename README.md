@@ -277,6 +277,13 @@ if ('serviceWorker' in navigator) {
 }
 ```
 
+and adding this to ```index.html```, before the bootstrapping of UI5:
+```html
+<!-- Register service worker -->
+<script src="register-worker.js"></script>
+```
+
+
 Now, we can open our Web Applicaion with Chrome, start ```Developer tools```, click on ```Network``` and see, which files are loaded by our service worker:
 (When we first start the page the service worker will be registered and installed. When you now reload it the service worker will start serving the files.)
 
@@ -384,5 +391,33 @@ data-sap-ui-preload="async"
 ```
 
 This will affect, that the libraries are being loaded asynchronously, but you have to check, if there are still synchronous requests for libraries. In our case, there are synchrony requests for ```Avatar.js``` and ```library.js``` file from ```sap.f```-library. This means we must preload the ```sap.f``` library.
+
+### 8. Preload libraries
+To preload libraries, we just have to add them to ```data-sap-ui-libs``` in ```bootstrap``` of ```index.html```:
+
+```html
+data-sap-ui-libs="sap.m, sap.ui.layout, sap.ui.core, sap.f"
+```
+
+Now let us check the ```XMLHttpRequests``` in ```Developer tools``` again:
+![requests_library_parameters.png](https://preview.ibb.co/kjmt5w/requests_library_parameters.png)
+
+There are only eight XHTTPRequests left, after having made all this changes.
+The ```library-parameters.json``` file is being requested, because the browser tries to render the UI before the ```theme``` is fully loaded. To solve this, we have to tell the browser in bootstrapping of UI5 in ```index.html```, that it has to wait for the theme:
+
+```html
+data-sap-ui-xx-waitForTheme="true"
+```
+
+### 9. Messagebundles-preload
+After having fixed this, we only have six XHRs. Three of them are asynchronous, so there are just three synchronous requests leftover.
+
+![requests_messagebundles.png](https://preview.ibb.co/csTjTG/requests_messagebundles.png)
+
+These three files are the ```messagebundle``` files. They are for standard texts in Components, for example the ```"Search"``` text of a ```Search field```. 
+
+To make them asynchronous, there is unfortunately no property or tag. This is being caused by the core of UI5. In future versions of sapui5 this will be fixed, and these files will be loaded asynchronously automatically, but for now we need a workaround:
+
+
 
 
