@@ -186,6 +186,157 @@ The Manifest is a description of our web app. You are able to define a name, lin
 A service worker is a separate script, running in the background independent from the main thread. It allows us to implement various features, but the main goals are the ability of push notifications and offline resource loading.
 
 The service worker’s life cycle starts with the install process. This is the only point, where it has online connectivity and can be used to cache needed resources. Once all required files are loaded, it gets activated and can now handle fetch and message requests.
+
 Let us begin with building a service worker and see what is happening:
 
+```javascript
+const CACHE_NAME = 'ui5-iconexplorer-pwa-v1.0.0';
+var RESOURCES_TO_PRELOAD = [
+	'Component-preload.js',
+	'/openui5/resources/sap-ui-messagebundle-preload.js',
+	'/icons/icon.svg',
+	'index.html',
+    'register-worker.js'
+];
 
+//Preload UI5 core and libraries by install
+const cdnBase = 'https://openui5nightly.hana.ondemand.com/resources/';
+RESOURCES_TO_PRELOAD = RESOURCES_TO_PRELOAD.concat([
+    `${cdnBase}sap-ui-core.js`,
+    `${cdnBase}sap/ui/core/library-preload.js`,
+    `${cdnBase}sap/m/themes/sap_belize/library.css`,
+    `${cdnBase}sap/ui/core/themes/base/fonts/SAP-icons.woff2`,
+    `${cdnBase}sap/m/library-preload.js`,
+	`${cdnBase}sap/ui/core/themes/sap_belize/library.css`
+]);
+
+// Preload some resources during install
+self.addEventListener('install', function (event) {
+	event.waitUntil(
+		caches.open(CACHE_NAME).then(function (cache) {
+			return cache.addAll(RESOURCES_TO_PRELOAD);
+		})
+	);
+});
+
+// Delete obsolete caches during activate
+self.addEventListener('activate', function (event) {
+	event.waitUntil(
+		caches.keys().then(function (keyList) {
+			return Promise.all(keyList.map(function (key) {
+				if (key !== CACHE_NAME) {
+					return caches.delete(key);
+				}
+			}));
+		})
+	);
+});
+
+// During runtime, get files from cache or -> fetch, then save to cache
+self.addEventListener('fetch', function (event) {
+	event.respondWith(
+		caches.match(event.request).then(function (response) {
+			if (response) {
+				return response; // There is a cached version of the resource already
+			}
+
+			let requestCopy = event.request.clone();
+			return fetch(requestCopy).then(function (response) {
+				if (!response) {
+					return response;
+				}
+				// If a resource is retrieved, save a copy to the cache.
+				// Unfortunately, it is not possible to check if the response form CDN
+				// was successful (responses with type === 'opaque' have zero status). 
+				// For example, a 404 CDN error will be cached, too.
+				if (response.status === 200 || response.type === 'opaque') {
+					let responseCopy = response.clone();
+					caches.open(CACHE_NAME).then(function (cache) {
+						cache.put(event.request, responseCopy);
+					});
+				}
+				return response;
+			});
+		})
+	);
+});
+```
+
+We also have to register the service worker. This is easily done by creating this ```register-worker.js``` file: 
+
+```javascript
+/**
+ * Register the service worker
+ */
+if ('serviceWorker' in navigator) {
+    navigator.serviceWorker
+        .register('./service-worker.js')
+        .then(function () { 
+            console.log('Service Worker Registered'); 
+        });
+}
+```
+
+Now, we can open our Web Applicaion with Chrome, start ```Developer tools```, click on ```Network``` and see, which files are loaded by our service worker:
+(When we first start the page the service worker will be registered and installed. When you now reload it the service worker will start serving the files.)
+
+![requests.png](https://preview.ibb.co/dBhNyG/requests.png)
+
+This gives us an overview of all files requested by the Icon Explorer. You can realize, that there are already a lot of files loaded by the service worker, but there are still various files, not coming from there. This is where the main problem begins. 
+
+The service worker is not able to see any ```synchronous XMLHttpRequest```. So, we must reduce all XHRs and load every component and library ```asynchronously```.
+
+### 5. Preload Components
+A component preload will combine all needed components in one file. This will help us to get fewer XHRs and to improve the start-up performance for delivering a better user experience.
+To create a ```Component-Preload.js``` file you can either use the [SAPUI5 Web IDE](https://cloudplatform.sap.com/capabilities/devops/web-ide.html) or you can make it with [Grunt](https://gruntjs.com/). 
+
+In this case, we will use ```Grunt```.
+
+We need to create a ```Gruntfile.js```:
+```javascript
+module.exports = function(grunt) {
+      grunt.initConfig({
+        dir:{
+            webapp: 'IconExplorer/src',
+            dist: 'dist'
+        },
+
+        clean: {
+            "preload": ["src/Component-preload.js"],
+            "openui5": ['src/openui5']
+        },
+        
+        "openui5_preload": {
+            component: {
+                options: {
+                    compress: false,
+                    resources: {
+                        cwd: "src",
+                        prefix: "sap/ui/demo/iconexplorer",
+                        src: [
+                            "Component.js",
+                            "**/*.js",
+                            "**/*.fragment.xml",
+                            "**/*.view.xml",
+                            "**/*.properties",
+                            "manifest.json",
+                            "!Component-preload.js",
+                            "!test/**",
+                            "!openui5/**"
+                        ]
+                    },
+                    dest: "src"
+                },
+                components: "sap/ui/demo/iconexplorer"
+            }
+        },
+    });
+    
+    grunt.loadNpmTasks("grunt-contrib-clean");
+    grunt.loadNpmTasks("grunt-openui5");
+    
+    grunt.registerTask('build', ['clean', 'openui5_preload']);
+    grunt.registerTask('default', ['build']);
+};
+```
+The ```openui5_preload``` task will generate our ```Component-preload.js``` file, containing our Component.js, manifest.json and all other .js, .xml, .properties files. 
