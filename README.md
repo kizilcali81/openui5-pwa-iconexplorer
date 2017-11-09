@@ -499,5 +499,7 @@ Chrome gives us the ability to run an audit in ```Developer tools``` with ```Lig
 The Icon Explorer passes ```10 audits``` and only fails ```1 audit```, the performance test with 3G. This is due to the loading of OpenUi5. It takes some time to load all the needed stuff, but this is not further tragic.
 
 # Conclusion
-This example has showed us, that Progressive Web Apps are indeed no limitation for OpenUI5. In summary we can say, that it is enough to create a ```Gruntfile.js```, which preloads all components and libraries, to convert our existing OpenUI5 application into a Progressive Web App. But we also have to point out, that the Icon Explorer is a standalone application with no synchronization. 
+This example showed us, that Progressive Web Apps are indeed no limitation for OpenUI5. In summary we can say, that it is enough to create a ```Gruntfile.js```, which preloads all components and libraries, to convert our existing OpenUI5 application into a Progressive Web App. 
+
+But we also have to point out, that the Icon Explorer is a standalone application with no synchronization. 
 For the future we should also consider to examine how OpenUI5 is performing as PWA, when it comes to synchronization and data exchange. 
