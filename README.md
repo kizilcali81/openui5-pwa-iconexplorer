@@ -382,7 +382,7 @@ To fix this, we need to modify the ```index.html``` file:
 ```
 Instead of just placing a ```Component-Container```, we have to initialize the UI Component with two additional properties: ```async: true``` and ```manifestFirst: true```.
 
-### 7. Make load of components asynchronous
+### 7. Make load of libraries asynchronous
 After having all components loading asynchronously, we also need to do this with the libraries:
 Just add this to the bootstrapping part of ```index.html```:
 
