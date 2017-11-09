@@ -45,7 +45,7 @@ In browser, open [http://localhost:8819](http://localhost:8819)
 ## What do we need?
 A default PWA needs: 
 
-*	Special meta tags in index.html to tell the browser, that this is a web app and to load some icons and to make other modifications. (You can find a collection for PWA related meta tags [here](https://github.com/gokulkrishh/awesome-meta-and-manifest))
+*	Special meta tags in index.html to tell the browser, that this is a web app and to load some icons and to make other modifications.
 
 *	Splash screen and icons because Progressive Web Apps need some static content, which is shown immediately
 
@@ -59,7 +59,8 @@ For more details, you can look up the [PWA Checklist](https://developers.google.
 ## Let's begin
 
 ### 1. Metatags
-First, we will add some needed meta tags to the header to link the manifest, load the icons and tell the browser, that this is a Web App:
+First, we will add meta tags to the header to link the manifest, load the icons and tell the browser, that this is a Web App:
+(You can find a collection for PWA related meta tags [here](https://github.com/gokulkrishh/awesome-meta-and-manifest))
 
 ```html
 <!-- PWA related meta tags -->
