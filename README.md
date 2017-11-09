@@ -339,4 +339,50 @@ module.exports = function(grunt) {
     grunt.registerTask('default', ['build']);
 };
 ```
-The ```openui5_preload``` task will generate our ```Component-preload.js``` file, containing our Component.js, manifest.json and all other .js, .xml, .properties files. 
+The ```openui5_preload``` task will generate our ```Component-preload.js``` file, containing our Component.js, manifest.json and all other .js, .xml and .properties files. 
+
+### 6. Make load of components asynchronous
+We created the ```Component-preload.js``` file to reduce the ```XMLHttpRequests```, but the components are still being loaded ```synchronously```. Luckily UI5 delivers us several opportunities to make things ```asynchronous```.
+
+To fix this, we need to modify the ```index.html``` file:
+```html
+<script>
+        sap.ui.getCore().attachInit(function () {
+            sap.ui.require([
+                "sap/m/Shell",
+                "sap/ui/core/ComponentContainer"
+            ], function (Shell, ComponentContainer) {
+                var oCompContainer = new ComponentContainer({
+                    height: "100%",
+                });
+
+                // initialize the UI component with async property
+                var oComponent = sap.ui.component({
+                    async: true,
+                    manifestFirst: true,
+                    name: "sap.ui.demo.iconexplorer"
+                }).then(function(oComponent){
+                    oCompContainer.setComponent(oComponent);
+                });
+
+                new Shell({
+                    showLogout:false,
+                    app: oCompContainer
+                }).placeAt("content");
+                });
+        });
+</script>
+```
+Instead of just placing a ```Component-Container```, we have to initialize the UI Component with two additional properties: ```async: true``` and ```manifestFirst: true```.
+
+### 7. Make load of components asynchronous
+After having all components loading asynchronously, we also need to do this with the libraries:
+Just add this to the bootstrapping part of ```index.html```:
+
+```html
+data-sap-ui-preload="async"
+```
+
+This will affect, that the libraries are being loaded asynchronously, but you have to check, if there are still synchronous requests for libraries. In our case, there are synchrony requests for ```Avatar.js``` and ```library.js``` file from ```sap.f```-library. This means we must preload the ```sap.f``` library.
+
+
