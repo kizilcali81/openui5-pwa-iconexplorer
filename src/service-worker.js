@@ -8,14 +8,14 @@ var RESOURCES_TO_PRELOAD = [
 ];
 
 //Preload UI5 core and libraries by install
-const cdnBase = 'https://openui5nightly.hana.ondemand.com/resources/';
+const cdnBase = 'https://openui5.hana.ondemand.com/resources/';
 RESOURCES_TO_PRELOAD = RESOURCES_TO_PRELOAD.concat([
     `${cdnBase}sap-ui-core.js`,
     `${cdnBase}sap/ui/core/library-preload.js`,
     `${cdnBase}sap/m/themes/sap_belize/library.css`,
     `${cdnBase}sap/ui/core/themes/base/fonts/SAP-icons.woff2`,
     `${cdnBase}sap/m/library-preload.js`,
-	`${cdnBase}sap/ui/core/themes/sap_belize/library.css`
+    `${cdnBase}sap/ui/core/themes/sap_belize/library.css`
 ]);
 
 // Preload some resources during install
