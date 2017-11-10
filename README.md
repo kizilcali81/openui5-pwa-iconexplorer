@@ -284,7 +284,7 @@ and adding this to ```index.html```, before the bootstrapping of UI5:
 ```
 
 
-Now, we can open our Web Applicaion with Chrome, start ```Developer tools```, click on ```Network``` and see, which files are loaded by our service worker:
+Now, we can open our Web Application with Chrome, start ```Developer tools```, click on ```Network``` and see, which files are loaded by our service worker:
 (When we first start the page the service worker will be registered and installed. When you now reload it the service worker will start serving the files.)
 
 ![requests.png](https://preview.ibb.co/dBhNyG/requests.png)
