@@ -1,4 +1,4 @@
-# Convert a OpenUI5 Application into a Progressive Web App: 
+# Convert an OpenUI5 Application into a Progressive Web App: 
 Progressive Web Apps have opened us a lot of new ways in delivering amazing user experiences on the web. They combine the best of web and the best of apps, regardless of any operating system and browser choice. After being installed they feel and look like native applications without requiring special skills for development. Modern business applications must work on desktop and mobile systems, which is no limitation thanks to responsiveness of PWAs. And the best of all: It’s working fully offline.
 
 UI5 gives us the opportunity to build fast, reliable and responsive user interfaces for the Web. 
