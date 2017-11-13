@@ -54,7 +54,7 @@ A default PWA needs:
 *	A service worker to guarantee offline compatibility
 For more details, you can look up the [PWA Checklist](https://developers.google.com/web/progressive-web-apps/checklist)
 
---> The Service Worker is only able to see asynchron requests. So the application has to load everything asynchronosly.
+--> The Service Worker is only able to see asynchronous requests. So the application has to load everything asynchronously.
 
 ## Let's begin
 
