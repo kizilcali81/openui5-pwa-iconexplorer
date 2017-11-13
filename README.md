@@ -185,7 +185,7 @@ The Manifest is a description of our web app. You are able to define a name, lin
 ### 4. Service Worker
 A service worker is a separate script, running in the background independent from the main thread. It allows us to implement various features, but the main goals are the ability of push notifications and offline resource loading.
 
-The service worker’s life cycle starts with the install process. This is the only point, where it has online connectivity and can be used to cache needed resources. Once all required files are loaded, it gets activated and can now handle fetch and message requests.
+The service worker’s life cycle starts with the installation process. This is the only point, where it has online connectivity and can be used to cache needed resources. Once all required files are loaded, it gets activated and can now handle fetch and message requests.
 
 Let us begin with building a service worker and see what is happening:
 
