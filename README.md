@@ -487,16 +487,12 @@ data-sap-ui-xx-supportedLanguages="default"
 
 If we do not define a language for our application (e.g with ```sap-ui-language```), UI5 tries to load the messagebundle according to the browser language. This can lead to requests for very specific languages like ```de_DE```, but UI5 is "only" translated into ~38 languages with one version of German (```de```), causing a language loading fallback. Our preload also contains only these languages, so we have to tell UI5, that it has to load just ```supported languages```. Setting the supported languages to ```default``` will avoid any request for languages not existing in UI5.
 
-### 10. Audit
-Finally, our application should now load everything from the service worker. This means, that our Progrssive Web App is finished and fully working offline. 
+### 10. Test
+Finally, our application should now load everything from the service worker. This means, that our Progrssive Web App is finished and is fully working offline. 
 
 <a href="https://ibb.co/gvjcXb"><img src="https://image.ibb.co/mB56Qw/iconexplorer.gif" alt="iconexplorer.gif" border="0"></a>
 
-Chrome gives us the ability to run an audit in ```Developer tools``` with ```Lighthouse```, to test how our application is performing as Progressive Web App:
-
-![audit.png](https://image.ibb.co/hdgzCb/audit.png)
-
-The Icon Explorer passes ```10 audits``` and only fails ```1 audit```, the performance test with 3G. This is due to the loading of OpenUi5. It takes some time to load all the needed stuff, but this is not further tragic.
+Chrome gives us the ability to run an audit in ```Developer tools``` with ```Lighthouse```, to test how our application is performing as Progressive Web App
 
 # Conclusion
 This example showed us, that Progressive Web Apps are indeed no limitation for OpenUI5. In summary we can say, that it is enough to create a ```Gruntfile.js```, which preloads all components and libraries, to convert our existing OpenUI5 application into a Progressive Web App. 
