@@ -136,12 +136,6 @@ The Manifest is a description of our web app. You are able to define a name, lin
     "name": "PWA UI5 Icon Explorer",
     "short_name": "Icon Explorer",
     "icons": [
-        
-        {
-            "src": "icons/icon.svg",
-            "sizes": "48x48 72x72 96x96 128x128 144x144 152x152 192x192   
-                      256x256 512x512"
-        },
 
         {
             "src": "icons/icon-128x128.png",
